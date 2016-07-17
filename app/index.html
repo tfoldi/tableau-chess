@@ -9,11 +9,15 @@
   <!-- endbuild -->
 
   <!-- build:js javascripts/application.js -->
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.js"></script>
     <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
-    <script type="text/javascript" src="javascripts/application.js"></script>
+    <script type="text/javascript" data-main="javascripts/application" src="bower_components/requirejs/require.js"></script>
   <!-- endbuild -->
 </head>
-<body>
-
+<body onload="initViz();">
+    <div id="vizContainer"></div>
+    <br>
+    <div id="markDetails">Information about selected marks displays here.</div>
 </body>
+
 </html>
