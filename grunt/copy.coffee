@@ -23,6 +23,7 @@ module.exports =
       src: [
         '*.{ico,png,txt}',
         '.htaccess',
+        'javascripts/*.js',
         'images/{,*/}*.{webp,png,jpg,ico,gif}',
       ]
     ]
