@@ -10,6 +10,17 @@ module.exports =
       dest: 'dist'
       src: ['{,*/}*.html']
     ]
+  # Skip grunt-requirejs and avoid warnings
+  requirejs:
+    files: [
+      {
+        src: 'bower_components/requirejs/require.js'
+        dest: 'dist/javascripts/require.js'
+      }
+      {
+        src: 'bower_components/requirejs/require.js'
+        dest: '.tmp/javascripts/require.js'
+      }]
   bower:
     expand: true
     src: ['bower_components/**']

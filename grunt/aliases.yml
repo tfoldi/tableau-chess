@@ -5,6 +5,7 @@ build:
   - 'copy:tmp'
   - 'copy:html'
   - 'copy:bower'
+  - 'copy:requirejs'
   - 'useminPrepare'
   - 'usemin'
   - 'concat'
@@ -17,9 +18,12 @@ serve:
   - 'connect:livereload'
   - 'sass:dist'
   - 'coffee:dist'
+  - 'copy:requirejs'
   - 'watch'
 deploy:
   - 'build'
   - 'gh-pages'
+test:
+  - 'build'
 default:
   - 'serve'
