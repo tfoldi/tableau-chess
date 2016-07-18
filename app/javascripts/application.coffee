@@ -14,9 +14,11 @@ require [ 'ToledoChess' ], (ToledoChess) ->
       hideTabs: true
       onFirstInteractive: ->
         getSheet().applyFilterAsync "Field Name + Piece", "", tableau.FilterUpdateType.ALL
-        viz.addEventListener(tableau.TableauEventName.MARKS_SELECTION, onMarksSelection)
-        DrawPieces()
-        console.log "onFirstInteractive done, we have our board"
+        .then ->
+          viz.addEventListener(tableau.TableauEventName.MARKS_SELECTION, onMarksSelection)
+        .then ->
+          drawPieces()
+          setInfo "Feel free to make your first move!"
     window.viz = new tableau.Viz(containerDiv, vizURL, options)
 
   onMarksSelection = (marksEvent) ->
@@ -36,22 +38,27 @@ require [ 'ToledoChess' ], (ToledoChess) ->
                      fieldName: 'ATTR(Toledo Field ID)'
                    ).formattedValue
 
-      html = 'Field Id ' + fieldID
+      html = 'Selected field: ' + fieldID
       ai.OnClick fieldID
     else if marks.length > 1
       html = 'Please select only one field'
 
-    infoDiv = document.getElementById('chessLog')
-    infoDiv.innerHTML = html
+    setInfo html
 
+
+  setInfo = (msg) ->
+    infoDiv = document.getElementById('chessLog')
+    infoDiv.innerHTML = msg
+    console.log msg
+    
 
   aiCallback = (player, from, to) ->
     console.log player, from, to
 
   pieces = "\xa0\u265f\u265a\u265e\u265d\u265c\u265b  \u2659\u2654\u2658\u2657\u2656\u2655"
   
-  DrawPieces = ->
-    console.log 'DrawPieces'
+  drawPieces = ->
+    console.log 'drawPieces'
    
     board = _.map(
       _.range 21, 99
@@ -64,12 +71,16 @@ require [ 'ToledoChess' ], (ToledoChess) ->
         tableau.FilterUpdateType.REPLACE
     )
 
-
-  window.initViz = initViz
+ 
+  # Load AI, set callbacks
   ai = ToledoChess
-  ai.drawCallback = DrawPieces
+  ai.drawCallback = drawPieces
   ai.aiCallback = aiCallback
-  # TODO: kill me
+
+  # make initViz a top level exported function
+  window.initViz = initViz
+
+  # TODO: kill me, just for convenient debug
   window.getSheet = getSheet
   window.ai = ai
 
