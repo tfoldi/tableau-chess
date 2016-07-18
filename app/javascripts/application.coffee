@@ -18,7 +18,7 @@ require [ 'ToledoChess' ], (ToledoChess) ->
     window.viz = new tableau.Viz(containerDiv, vizURL, options)
 
   onMarksSelection = (marksEvent) ->
-    marksEvent.getMarksAsync().then reportSelectedMarks
+    marksEvent.getMarksAsync().then marksSelected
 
   getSheet = ->
     _.first window.viz.getWorkbook().getActiveSheet().getWorksheets()
@@ -26,26 +26,23 @@ require [ 'ToledoChess' ], (ToledoChess) ->
   selectMark = (field, value) ->
     getSheet().selectMarksAsync(field, value, tableau.SelectionUpdateType.REPLACE)
 
-  reportSelectedMarks = (marks) ->
+  marksSelected = (marks) ->
     html = ''
-    markIndex = 0
-    while markIndex < marks.length
-      pairs = marks[markIndex].getPairs()
-      html += '<b>Mark ' + markIndex + ':</b><ul>'
-      pairIndex = 0
-      while pairIndex < pairs.length
-        pair = pairs[pairIndex]
-        html += '<li><b>Field Name:</b> ' + pair.fieldName
-        html += '<br/><b>Value:</b> ' + pair.formattedValue + '</li>'
-        pairIndex++
-      html += '</ul>'
-      markIndex++
-    infoDiv = document.getElementById('markDetails')
+    if marks.length == 1
+      fieldID =  _.findWhere(
+                     _.first(marks).getPairs(),
+                     fieldName: 'ATTR(Toledo Field ID)'
+                   ).formattedValue
+
+      html = 'Field Id ' + fieldID
+      ai.OnClick fieldID
+    else if marks.length > 1
+      html = 'Please select only one field'
+
+    infoDiv = document.getElementById('chessLog')
     infoDiv.innerHTML = html
-    #ai.OnClick FieldID
 
 
-  # Init chess engine, register and implement callbacks 
   aiCallback = (player, from, to) ->
     console.log player, from, to
 
@@ -60,16 +57,12 @@ require [ 'ToledoChess' ], (ToledoChess) ->
         q.style.borderColor = if p == ai.getMoveFrom() then 'red' else '#dde'
       ++p
 
-  OnClick = (fieldID) ->
-    ai.OnClick fieldID
-
-
   window.initViz = initViz
   ai = ToledoChess
   ai.drawCallback = DrawPieces
   ai.aiCallback = aiCallback
   # TODO: kill me
   window.getSheet = getSheet
-  window.ai = ai 
+  window.ai = ai
 
      

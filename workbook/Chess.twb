@@ -323,6 +323,7 @@
         </panes>
         <rows>[federated.06pk2at0e4dq7m13efw3b1sjs9mv].[none:X (copy):ok]</rows>
         <cols>[federated.06pk2at0e4dq7m13efw3b1sjs9mv].[none:Calculation_757026987051618304:nk]</cols>
+        <tooltip-style tooltip-mode='none' />
       </table>
     </worksheet>
   </worksheets>
@@ -353,7 +354,7 @@
     </dashboard>
   </dashboards>
   <windows source-height='30'>
-    <window class='worksheet' name='Chessboard'>
+    <window class='worksheet' maximized='true' name='Chessboard'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -395,13 +396,13 @@
         </highlight>
       </viewpoint>
     </window>
-    <window class='dashboard' maximized='true' name='Board'>
+    <window class='dashboard' name='Board'>
       <viewpoints>
         <viewpoint name='Chessboard'>
           <zoom type='entire-view' />
         </viewpoint>
       </viewpoints>
-      <active id='1' />
+      <active id='-1' />
     </window>
   </windows>
   <thumbnails>
