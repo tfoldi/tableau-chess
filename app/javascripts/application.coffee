@@ -13,7 +13,9 @@ require [ 'ToledoChess' ], (ToledoChess) ->
     options =
       hideTabs: true
       onFirstInteractive: ->
+        getSheet().applyFilterAsync "Field Name + Piece", "", tableau.FilterUpdateType.ALL
         viz.addEventListener(tableau.TableauEventName.MARKS_SELECTION, onMarksSelection)
+        DrawPieces()
         console.log "onFirstInteractive done, we have our board"
     window.viz = new tableau.Viz(containerDiv, vizURL, options)
 
@@ -46,16 +48,22 @@ require [ 'ToledoChess' ], (ToledoChess) ->
   aiCallback = (player, from, to) ->
     console.log player, from, to
 
+  pieces = "\xa0\u265f\u265a\u265e\u265d\u265c\u265b  \u2659\u2654\u2658\u2657\u2656\u2655"
+  
   DrawPieces = ->
     console.log 'DrawPieces'
-    pieces = "\xa0\u265f\u265a\u265e\u265d\u265c\u265b  \u2659\u2654\u2658\u2657\u2656\u2655"
-    q = undefined
-    p = 21
-    while p < 99
-      if q = document.getElementById('o' + p)
-        q.innerHTML = pieces.charAt(ai.board[p] & 15)
-        q.style.borderColor = if p == ai.getMoveFrom() then 'red' else '#dde'
-      ++p
+   
+    board = _.map(
+      _.range 21, 99
+      (p) -> "#{p}#{pieces.charAt(ai.board[p] & 15)}"
+    )
+    console.log "board: #{board}"
+    getSheet().applyFilterAsync(
+        "Toledo ID + Piece",
+        board,
+        tableau.FilterUpdateType.REPLACE
+    )
+
 
   window.initViz = initViz
   ai = ToledoChess
@@ -65,4 +73,3 @@ require [ 'ToledoChess' ], (ToledoChess) ->
   window.getSheet = getSheet
   window.ai = ai
 
-     
