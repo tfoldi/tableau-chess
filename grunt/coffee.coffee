@@ -6,3 +6,4 @@ module.exports =
     src: ['*.coffee']
     dest: '.tmp/javascripts'
     ext: '.js'
+    options: sourceMap: true
