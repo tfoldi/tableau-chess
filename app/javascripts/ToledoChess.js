@@ -302,7 +302,6 @@ define([], function() {
         curPieceCode = 14 - document.getElementById("t").selectedIndex ^ curPlayer;
       // verify player move and execute it
       var ret = compute(0,0,0,21,pawn2SquareMove,1);
-      console.log( "compute return with " + ret );
       // Call A.I. after some delay
       if (curPlayer) {
         clickLock = true;

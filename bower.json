@@ -5,7 +5,8 @@
   "dependencies": {
     "jquery": "~2.0.0",
     "underscore": "~1.8.3",
-    "requirejs": "~2.1.2"
+    "requirejs": "~2.1.2",
+    "console-log-div": null
   },
   "devDependencies": {}
 }
