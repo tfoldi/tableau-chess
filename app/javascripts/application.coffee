@@ -19,6 +19,8 @@ require [ 'ToledoChess' ], (ToledoChess) ->
         .then ->
           viz.addEventListener(tableau.TableauEventName.MARKS_SELECTION, onMarksSelection)
         .then ->
+          viz.addEventListener(tableau.TableauEventName.PARAMETER_VALUE_CHANGE, onParamChange)
+        .then ->
           drawPieces()
           logInfo "Info: Feel free to make your first move!"
     window.viz = new tableau.Viz(containerDiv, vizURL, options)
@@ -26,11 +28,19 @@ require [ 'ToledoChess' ], (ToledoChess) ->
   onMarksSelection = (marksEvent) ->
     marksEvent.getMarksAsync().then marksSelected
 
+  onParamChange = (parameterEvent) ->
+    parameterEvent.getParameterAsync().then parameterSelected
+
   getSheet = ->
     _.first window.viz.getWorkbook().getActiveSheet().getWorksheets()
 
   selectMark = (field, value) ->
     getSheet().selectMarksAsync(field, value, tableau.SelectionUpdateType.REPLACE)
+
+  parameterSelected = (parameter) ->
+    value = parameter.getCurrentValue().value
+    logInfo "Promote pawn to: #{pieces[value]}"
+    ai.promotePawnTo = value
 
   marksSelected = (marks) ->
     if marks.length == 1
