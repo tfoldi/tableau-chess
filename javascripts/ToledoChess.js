@@ -33,6 +33,7 @@ define([], function() {
     moveTo, // target position of the move
     I = [],
     board = [], // chessboard (12 rows x 10 columns, see wiki for more info)
+    promotePawnTo = 6,
     C120 = 120,
     C10 = 10, // just ten ;)
     C15 = 15, // just fifteen ;)
@@ -299,7 +300,7 @@ define([], function() {
       curPieceCode = board[moveFrom] & C15;
       // pawn promotion
       if ((curPieceCode & 7) == 1 & (moveTo < 29 | moveTo > 90))
-        curPieceCode = 14 - document.getElementById("t").selectedIndex ^ curPlayer;
+        curPieceCode = ai.promotePawnTo ^ curPlayer;
       // verify player move and execute it
       var ret = compute(0,0,0,21,pawn2SquareMove,1);
       // Call A.I. after some delay
@@ -319,6 +320,7 @@ define([], function() {
     aiCallback : function() {},
     OnClick : OnClick,
     board: board,
+    promotePawnTo: promotePawnTo,
     getMoveFrom : function() {return moveFrom;}
   }
   return callbacks;
