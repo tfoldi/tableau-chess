@@ -49,12 +49,13 @@ require [ 'ToledoChess' ], (ToledoChess) ->
                      fieldName: 'ATTR(Toledo Field ID)'
                    ).formattedValue
 
-      logInfo "Select: Select field #{fieldID}"
+      logInfo "Select: Select field #{toFieldName fieldID}"
       ai.OnClick fieldID
     else if marks.length > 1
       logInfo 'Error: Please select only one field'
 
-
+  toFieldName = (fieldId) ->
+    "#{String.fromCharCode("A".charCodeAt(0) + fieldId % 10-1)}#{parseInt( 11 - fieldId / 10 )}"
 
   logInfo = (msg) ->
     console.log msg
@@ -63,7 +64,7 @@ require [ 'ToledoChess' ], (ToledoChess) ->
       .animate { scrollTop: $('.console-log-div')[0].scrollHeight }, 800
     
   aiCallback = (player, from, to) ->
-    logInfo "Move: #{if player == 0 then "Computer" else "Player"} #{from} -> #{to}"
+    logInfo "Move: #{if player == 0 then "Computer" else "Player"} #{toFieldName from} -> #{toFieldName to}"
 
   pieces = "\xa0\u265f\u265a\u265e\u265d\u265c\u265b  \u2659\u2654\u2658\u2657\u2656\u2655"
   
