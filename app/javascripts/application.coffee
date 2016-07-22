@@ -39,7 +39,7 @@ require [ 'ToledoChess' ], (ToledoChess) ->
 
   parameterSelected = (parameter) ->
     value = parameter.getCurrentValue().value
-    logInfo "Promote pawn to: #{pieces[value]}"
+    logInfo "Info: Promote pawn to: #{pieces[value]}"
     ai.promotePawnTo = value
 
   marksSelected = (marks) ->
@@ -48,14 +48,16 @@ require [ 'ToledoChess' ], (ToledoChess) ->
                      _.first(marks).getPairs(),
                      fieldName: 'ATTR(Toledo Field ID)'
                    ).formattedValue
-
-      logInfo "Select: Select field #{toFieldName fieldID}"
       ai.OnClick fieldID
+      unless ai.getMoveFrom() == fieldID
+        logInfo "Warn: You cannot select #{toFieldName fieldID}"
+        getSheet().clearSelectedMarksAsync()
     else if marks.length > 1
       logInfo 'Error: Please select only one field'
 
   toFieldName = (fieldId) ->
-    "#{String.fromCharCode("A".charCodeAt(0) + fieldId % 10-1)}#{parseInt( 11 - fieldId / 10 )}"
+    String.fromCharCode("A".charCodeAt(0) + fieldId % 10-1) +
+      parseInt( 11 - fieldId / 10 )
 
   logInfo = (msg) ->
     console.log msg
