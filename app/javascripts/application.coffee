@@ -88,8 +88,8 @@ require [ 'ToledoChess' ], (ToledoChess) ->
   ai.drawCallback = drawPieces
   ai.aiCallback = aiCallback
 
-  # make initViz a top level exported function
-  window.initViz = initViz
+  # Init our viz when all things are loaded
+  initViz()
 
   # TODO: kill me, just for convenient debug
   window.getSheet = getSheet
