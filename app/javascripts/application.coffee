@@ -14,6 +14,7 @@ require [ 'ToledoChess' ], (ToledoChess) ->
     vizURL = 'https://public.tableau.com/views/Chess_3/Board'
     options =
       hideTabs: true
+      hideToolbar: true
       onFirstInteractive: ->
         getSheet().applyFilterAsync "Field Name + Piece", "", tableau.FilterUpdateType.ALL
         .then ->
